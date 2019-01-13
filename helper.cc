@@ -17,21 +17,21 @@ ShieldPoints Ship::getShield() const {
 
 
 bool Ship::isDestroyed() {
-  return shieldPoints==0;
+  return shieldPoints == 0;
 }
 
 AttackPower Ship::getAttackPower() {
   return 0;
 }
 
-Clock::Clock(Time startTime, Time t1): current_time(startTime), t1(t1) {}
+Clock::Clock(Time startTime, Time t1) : current_time(startTime), t1(t1) {}
 
 bool DefaultClock::isAttackTime() const {
-  return (current_time % 2 == 0 || current_time % 3 == 0 )&& current_time % 5 != 0;
+  return (current_time % 2 == 0 || current_time % 3 == 0) && current_time % 5 != 0;
 }
 
 void DefaultClock::tick(Time timestamp) {
-  current_time= current_time=(current_time+timestamp)%(t1+1);
+  current_time = current_time = (current_time + timestamp) % (t1 + 1);
 }
 
 DefaultClock::DefaultClock(Time startTime, Time t1) : Clock(startTime, t1) {}

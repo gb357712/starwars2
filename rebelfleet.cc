@@ -15,7 +15,7 @@ bool RebelStarship::isImperialShip() {
 }
 
 size_t RebelStarship::getCount() {
-  return isDestroyed()? 0 : 1;
+  return isDestroyed() ? 0 : 1;
 }
 
 
@@ -24,21 +24,21 @@ AttackPower AttackingRebelStarship::getAttackPower() {
 }
 
 
-AttackingRebelStarship::AttackingRebelStarship(ShieldPoints shield, Speed speed, AttackPower attackPower):RebelStarship(shield,speed), attackPower(attackPower) {}
+AttackingRebelStarship::AttackingRebelStarship(ShieldPoints shield, Speed speed, AttackPower attackPower)
+  : RebelStarship(shield, speed), attackPower(attackPower) {}
 
 
-
-Explorer::Explorer (ShieldPoints shield, Speed speed)
+Explorer::Explorer(ShieldPoints shield, Speed speed)
   : RebelStarship(shield, speed) {
   assert (speed >= 299796 && speed <= 2997960);
 }
 
-StarCruiser::StarCruiser (ShieldPoints shield, Speed speed, AttackPower attack)
+StarCruiser::StarCruiser(ShieldPoints shield, Speed speed, AttackPower attack)
   : AttackingRebelStarship(shield, speed, attack) {
   assert (speed >= 99999 && speed <= 299795);
 }
 
-XWing::XWing (ShieldPoints shield, Speed speed, AttackPower attack)
+XWing::XWing(ShieldPoints shield, Speed speed, AttackPower attack)
   : AttackingRebelStarship(shield, speed, attack) {
   assert (speed >= 299796 && speed <= 2997960);
 }

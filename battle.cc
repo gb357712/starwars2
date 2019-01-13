@@ -12,7 +12,7 @@ size_t SpaceBattle::countImperialFleet() {
 size_t SpaceBattle::countRebelFleet() {
   size_t num_ships = 0;
   for (const auto &s : rebelStarships)
-      num_ships += s->getCount();
+    num_ships += s->getCount();
 
   return num_ships;
 }
@@ -39,8 +39,8 @@ void SpaceBattle::tick(Time timeStep) {
       if (!impShip->isDestroyed()) {
         for (auto const &rebShip : rebelStarships) {
           if (!rebShip->isDestroyed()) {
-              rebShip->takeDamage(impShip->getAttackPower());
-              impShip->takeDamage(rebShip->getAttackPower());
+            rebShip->takeDamage(impShip->getAttackPower());
+            impShip->takeDamage(rebShip->getAttackPower());
           }
 
         }
@@ -52,7 +52,7 @@ void SpaceBattle::tick(Time timeStep) {
 }
 
 SpaceBattle::SpaceBattle(std::vector<std::shared_ptr<Ship>> rebel_ships,
-                         std::vector<std::shared_ptr<Ship>> imperial_ships, std::unique_ptr<Clock> clock):
+                         std::vector<std::shared_ptr<Ship>> imperial_ships, std::unique_ptr<Clock> clock) :
   rebelStarships(std::move(rebel_ships)), imperialStarships(std::move(imperial_ships)),
   clock(std::move(clock)) {}
 
@@ -78,7 +78,7 @@ SpaceBattle::Builder &SpaceBattle::Builder::maxTime(Time max_time) {
 }
 
 SpaceBattle SpaceBattle::Builder::build() {
-  std::unique_ptr<Clock> clockPtr = std::make_unique<DefaultClock>(t0,t1);
+  std::unique_ptr<Clock> clockPtr = std::make_unique<DefaultClock>(t0, t1);
   return SpaceBattle{std::move(rebelStarships), std::move(imperialStarships), std::move(clockPtr)};
 }
 

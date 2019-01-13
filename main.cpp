@@ -3,7 +3,6 @@
 #include "rebelfleet.h"
 #include "battle.h"
 
-
 int main() {
   auto xwing = createXWing(100, 300000, 50);
   auto explorer = createExplorer(150, 400000);

@@ -4,21 +4,17 @@
 
 #include "imperialfleet.h"
 
-ImperialStarship::ImperialStarship (ShieldPoints shield, AttackPower attack)
-  : Ship(shield), attackPower(attack)
-{}
+ImperialStarship::ImperialStarship(ShieldPoints shield, AttackPower attack)
+  : Ship(shield), attackPower(attack) {}
 
-DeathStar::DeathStar (ShieldPoints shield, AttackPower attack)
-  : ImperialStarship(shield, attack)
-{}
+DeathStar::DeathStar(ShieldPoints shield, AttackPower attack)
+  : ImperialStarship(shield, attack) {}
 
-ImperialDestroyer::ImperialDestroyer (ShieldPoints shield, AttackPower attack)
-  : ImperialStarship(shield, attack)
-{}
+ImperialDestroyer::ImperialDestroyer(ShieldPoints shield, AttackPower attack)
+  : ImperialStarship(shield, attack) {}
 
-TIEFighter::TIEFighter (ShieldPoints shield, AttackPower attack)
-  : ImperialStarship(shield, attack)
-{}
+TIEFighter::TIEFighter(ShieldPoints shield, AttackPower attack)
+  : ImperialStarship(shield, attack) {}
 
 
 bool ImperialStarship::isImperialShip() {
@@ -26,14 +22,15 @@ bool ImperialStarship::isImperialShip() {
 }
 
 size_t ImperialStarship::getCount() {
-  return isDestroyed()? 0 : 1;
+  return isDestroyed() ? 0 : 1;
 }
 
 AttackPower ImperialStarship::getAttackPower() {
-  return isDestroyed()? 0 : attackPower;
+  return isDestroyed() ? 0 : attackPower;
 }
 
-Squadron::Squadron(std::vector<std::shared_ptr<ImperialStarship>> ships) :ImperialStarship(0,0), imperialShips(std::move(ships)) {
+Squadron::Squadron(std::vector<std::shared_ptr<ImperialStarship>> ships) : ImperialStarship(0, 0),
+                                                                           imperialShips(std::move(ships)) {
   for (auto const &ship : imperialShips)
     attackPower += ship->getAttackPower();
 }
@@ -48,7 +45,7 @@ ShieldPoints Squadron::getShield() const {
 }
 
 AttackPower Squadron::getAttackPower() {
-  attackPower=0;
+  attackPower = 0;
   for (auto const &ship : imperialShips)
     attackPower += ship->getAttackPower();
   return attackPower;
@@ -60,8 +57,8 @@ void Squadron::takeDamage(AttackPower damage) {
 }
 
 bool Squadron::isDestroyed() {
-  for(const auto &it : imperialShips)
-    if(!it->isDestroyed())
+  for (const auto &it : imperialShips)
+    if (!it->isDestroyed())
       return false;
   return true;
 }
