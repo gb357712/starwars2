@@ -15,7 +15,7 @@ bool RebelStarship::isImperialShip() {
 }
 
 size_t RebelStarship::getCount() {
-  return 1;
+  return isDestroyed()? 0 : 1;
 }
 
 

@@ -3,7 +3,7 @@
 
 size_t SpaceBattle::countImperialFleet() {
   size_t num_ships = 0;
-  for (auto s : imperialStarships)
+  for (const auto &s : imperialStarships)
     num_ships += s->getCount();
 
   return num_ships;
@@ -11,8 +11,8 @@ size_t SpaceBattle::countImperialFleet() {
 
 size_t SpaceBattle::countRebelFleet() {
   size_t num_ships = 0;
-  for (auto s : rebelStarships)
-    num_ships += s->getCount();
+  for (const auto &s : rebelStarships)
+      num_ships += s->getCount();
 
   return num_ships;
 }

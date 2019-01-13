@@ -42,7 +42,7 @@ public:
   bool isDestroyed() override;
   size_t getCount() override;
   ShieldPoints getShield() const override;
-  AttackPower getAttackPower();
+  AttackPower getAttackPower() override;
 
 };
 

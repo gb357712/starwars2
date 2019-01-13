@@ -26,7 +26,7 @@ bool ImperialStarship::isImperialShip() {
 }
 
 size_t ImperialStarship::getCount() {
-  return 1;
+  return isDestroyed()? 0 : 1;
 }
 
 AttackPower ImperialStarship::getAttackPower() {
@@ -68,7 +68,7 @@ bool Squadron::isDestroyed() {
 
 size_t Squadron::getCount() {
   size_t count = 0;
-  for (auto it : imperialShips)
+  for (const auto &it : imperialShips)
     count += it->getCount();
   return count;
 }

@@ -27,7 +27,7 @@ AttackPower Ship::getAttackPower() {
 Clock::Clock(Time startTime, Time t1): current_time(startTime), t1(t1) {}
 
 bool DefaultClock::isAttackTime() const {
-  return current_time % 2 == 0 && current_time % 3 == 0 && current_time % 5 != 0;
+  return (current_time % 2 == 0 || current_time % 3 == 0 )&& current_time % 5 != 0;
 }
 
 void DefaultClock::tick(Time timestamp) {
