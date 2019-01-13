@@ -33,7 +33,7 @@ public:
 
   SpaceBattle(std::vector<std::shared_ptr<Ship>> rebel_ships,
               std::vector<std::shared_ptr<Ship>> imperial_ships,
-              std::unique_ptr<Clock> strategy);
+              std::unique_ptr<Clock> clock);
   SpaceBattle(SpaceBattle &&other) noexcept { std::move(other); }
 
   size_t countImperialFleet();

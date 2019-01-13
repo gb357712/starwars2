@@ -13,11 +13,11 @@ protected:
 public:
   ImperialStarship(ShieldPoints shield, AttackPower attack);
 
-  virtual bool isImperialShip() override;
+  bool isImperialShip() override;
 
-  virtual size_t getCount() override;
+  size_t getCount() override;
 
-  virtual AttackPower getAttackPower() override;
+  AttackPower getAttackPower() override;
 };
 
 class DeathStar : public ImperialStarship {

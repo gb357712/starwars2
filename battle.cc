@@ -42,7 +42,6 @@ void SpaceBattle::tick(Time timeStep) {
             rebShip->takeDamage(impShip->getAttackPower());
             impShip->takeDamage(rebShip->getAttackPower());
           }
-
         }
       }
     }
