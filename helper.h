@@ -1,34 +1,44 @@
-#ifndef STARWARS2_HELPER_H
-#define STARWARS2_HELPER_H
+#ifndef STARWARS22_HELPER_H
+#define STARWARS22_HELPER_H
 
-#include <memory>
-#include "rebelfleet.h"
-#include "imperialfleet.h"
 
+#include <cstddef>
+
+using ShieldPoints = int;
+using AttackPower = int;
+using Speed = int;
 using Time = int;
 
+class Ship{
+protected:
+  ShieldPoints shieldPoints;
+public:
+  explicit Ship(ShieldPoints shieldPoints);
+  virtual void takeDamage(AttackPower damage);
+  virtual ShieldPoints getShield() const;
+  virtual bool isDestroyed();
+  virtual bool isImperialShip() = 0;
+  virtual size_t getCount() = 0;
+  virtual AttackPower getAttackPower();
+};
+
 class Clock{
-private:
+protected:
   Time current_time;
   Time t1;
 public:
   Clock(Time startTime, Time t1);
-  bool tick(Time timestamp); //zwraca bool czy mozna wykonac atak i nastepnie przesuwa zegar
+  virtual bool isAttackTime() const  =0;
+  virtual void tick(Time timestamp) =0; //zwraca bool czy mozna wykonac atak i nastepnie przesuwa zegar
+};
+
+class DefaultClock : public Clock{
+public:
+  bool isAttackTime() const override;
+  void tick(Time timestamp) override;
+  DefaultClock(Time startTime, Time t1);
+
 };
 
 
-std::shared_ptr<RebelStarship> createXWing(ShieldPoints shield, Speed speed, AttackPower attackPower);
-std::shared_ptr<RebelStarship> createStarCruiser(ShieldPoints shield, Speed speed, AttackPower attackPower);
-std::shared_ptr<RebelStarship> createExplorer(ShieldPoints shield, Speed speed);
-
-std::shared_ptr<ImperialStarship> createTIEFighter(ShieldPoints shield, AttackPower attackPower);
-std::shared_ptr<ImperialStarship> createImperialDestroyer(ShieldPoints shield, AttackPower attackPower);
-std::shared_ptr<ImperialStarship> createDeathStar(ShieldPoints shield, AttackPower attackPower);
-
-std::shared_ptr<ImperialStarship> createSquadron(std::initializer_list<std::shared_ptr<ImperialStarship>> ships);
-
-
-
-
-
-#endif //STARWARS2_HELPER_H
+#endif //STARWARS22_HELPER_H

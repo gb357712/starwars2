@@ -1,24 +1,21 @@
-#ifndef __REBEL_FLEET_H__
-#define __REBEL_FLEET_H__
+#ifndef STARWARS22_REBELFLEET_H
+#define STARWARS22_REBELFLEET_H
 
-#include "imperialfleet.h"
+#include "helper.h"
+#include <cassert>
+#include <memory>
 
-typedef int Speed;
 
-class RebelStarship {
+class RebelStarship  :  public Ship{
 private:
-  ShieldPoints shieldPoints;
   Speed speed;
 
 public:
   RebelStarship (ShieldPoints shield, Speed speed);
-
-  virtual ShieldPoints getShield() const;
+  bool isImperialShip() override;
   virtual Speed getSpeed() const;
-  virtual void takeDamage(AttackPower damage);
+  size_t getCount() override;
 };
-
-
 
 class AttackingRebelStarship : public RebelStarship {
 private:
@@ -26,7 +23,8 @@ private:
 
 public:
   AttackingRebelStarship (ShieldPoints shield, Speed speed, AttackPower attackPower);
-  virtual AttackPower getAttackPower() const;
+  virtual AttackPower getAttackPower() override;
+
 };
 
 class Explorer: public RebelStarship {
@@ -44,4 +42,8 @@ public:
   XWing (ShieldPoints shield, Speed speed, AttackPower attackPower);
 };
 
-#endif /* __REBEL_FLEET_H__ */
+std::shared_ptr<RebelStarship> createXWing(ShieldPoints shield, Speed speed, AttackPower attackPower);
+std::shared_ptr<RebelStarship> createStarCruiser(ShieldPoints shield, Speed speed, AttackPower attackPower);
+std::shared_ptr<RebelStarship> createExplorer(ShieldPoints shield, Speed speed);
+
+#endif //STARWARS22_REBELFLEET_H

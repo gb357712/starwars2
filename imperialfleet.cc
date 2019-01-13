@@ -1,61 +1,94 @@
+//
+// Created by gabriel on 13.01.19.
+//
+
 #include "imperialfleet.h"
 
-ImperialStarship::ImperialStarship (ShieldPoints shield, AttackPower attack) 
-  : shieldPoints(shield), attackPower(attack)
-  {}
-  
-DeathStar::DeathStar (ShieldPoints shield, AttackPower attack) 
+ImperialStarship::ImperialStarship (ShieldPoints shield, AttackPower attack)
+  : Ship(shield), attackPower(attack)
+{}
+
+DeathStar::DeathStar (ShieldPoints shield, AttackPower attack)
   : ImperialStarship(shield, attack)
-  {}
-  
-ImperialDestroyer::ImperialDestroyer (ShieldPoints shield, AttackPower attack) 
+{}
+
+ImperialDestroyer::ImperialDestroyer (ShieldPoints shield, AttackPower attack)
   : ImperialStarship(shield, attack)
-  {}
-  
-TIEFighter::TIEFighter (ShieldPoints shield, AttackPower attack) 
+{}
+
+TIEFighter::TIEFighter (ShieldPoints shield, AttackPower attack)
   : ImperialStarship(shield, attack)
-  {}
-  
-ShieldPoints ImperialStarship::getShield() const {
-  return shieldPoints;
+{}
+
+
+bool ImperialStarship::isImperialShip() {
+  return true;
 }
 
-void ImperialStarship::takeDamage(AttackPower damage) {
-  shieldPoints = (shieldPoints < damage) ? 0 : shieldPoints - damage;
+size_t ImperialStarship::getCount() {
+  return 1;
 }
 
-AttackPower ImperialStarship::getAttackPower() const {
+AttackPower ImperialStarship::getAttackPower() {
+  return isDestroyed()? 0 : attackPower;
+}
+
+Squadron::Squadron(std::vector<std::shared_ptr<ImperialStarship>> ships) :ImperialStarship(0,0), imperialShips(std::move(ships)) {
+  for (auto const &ship : imperialShips)
+    attackPower += ship->getAttackPower();
+}
+
+ShieldPoints Squadron::getShield() const {
+  ShieldPoints sum_of_shields = 0;
+
+  for (auto const &ship : imperialShips)
+    sum_of_shields += ship->getShield();
+
+  return sum_of_shields;
+}
+
+AttackPower Squadron::getAttackPower() {
+  attackPower=0;
+  for (auto const &ship : imperialShips)
+    attackPower += ship->getAttackPower();
   return attackPower;
 }
 
-Squadron::Squadron (std::vector<ImperialStarship> ships) : ImperialStarship(0, 0) {
-  for (auto it = ships.begin(); it != ships.end(); ++it) {
-    imperialShips.emplace_back(*it);
-    shieldPoints += it -> getShield();
-    attackPower += it -> getAttackPower();
-  }
-}
-
-Squadron::Squadron (std::initializer_list<ImperialStarship> ships) : ImperialStarship(0, 0) {
-  for (auto it = ships.begin(); it != ships.end(); ++it) {
-    imperialShips.emplace_back(*it);
-    shieldPoints += it -> getShield();
-    attackPower += it -> getAttackPower();
-  }
-}
-
 void Squadron::takeDamage(AttackPower damage) {
-  auto it = imperialShips.begin();
-  while (it != imperialShips.end()) {
-    if (it -> getShield() <= damage) {
-      attackPower -= it -> getAttackPower();
-      shieldPoints -= it -> getShield();
-      it = imperialShips.erase(it);
-    }
-    else {
-      it -> takeDamage(damage);
-      shieldPoints -= damage;
-      ++it;
-    }
-  }
+  for (auto const &ship : imperialShips)
+    ship->takeDamage(damage);
+}
+
+bool Squadron::isDestroyed() {
+  for(const auto &it : imperialShips)
+    if(!it->isDestroyed())
+      return false;
+  return true;
+}
+
+size_t Squadron::getCount() {
+  size_t count = 0;
+  for (auto it : imperialShips)
+    count += it->getCount();
+  return count;
+}
+
+
+std::shared_ptr<ImperialStarship> createTIEFighter(ShieldPoints shield, AttackPower attackPower) {
+  std::shared_ptr<ImperialStarship> ship = std::make_shared<TIEFighter>(shield, attackPower);
+  return ship;
+}
+
+std::shared_ptr<ImperialStarship> createImperialDestroyer(ShieldPoints shield, AttackPower attackPower) {
+  std::shared_ptr<ImperialStarship> ship = std::make_shared<ImperialDestroyer>(shield, attackPower);
+  return ship;
+}
+
+std::shared_ptr<ImperialStarship> createDeathStar(ShieldPoints shield, AttackPower attackPower) {
+  std::shared_ptr<ImperialStarship> ship = std::make_shared<DeathStar>(shield, attackPower);
+  return ship;
+}
+
+std::shared_ptr<ImperialStarship> createSquadron(std::initializer_list<std::shared_ptr<ImperialStarship>> ships) {
+  return std::make_shared<Squadron>(ships);
 }
